@@ -1,0 +1,164 @@
+# Документация ко всем API - " https://iss.moex.com/iss/reference/ "
+
+######################################################################
+######################################################################
+Получение API по акции (конкретной) за диапазон дат
+1) Перед /from=.../.../.. нужно поставить название акции
+2) Дальше вставить дату начала и конца
+3) Выводит не более 100 строк
+
+import requests
+
+name=input("Код акции: ")
+data_0=input("Начало периода: ")
+data_1=input("Конец периода: ")
+print("\n","https://iss.moex.com/iss/history/engines/stock/markets/shares/securities/",
+      f"{name}",
+      "?from=",f"{data_0}","&till=",f"{data_1}","1&marketprice_board=1",sep="")
+
+######################################################################
+######################################################################
+# Сделать книгу Excel по годам с 2013 по 2022:
+
+pip install xlsxwriter¶
+pip install xlwt
+
+# Скичиваем нужные библиотеки
+import pandas as pd
+import requests
+
+#Создаём книгу Excel
+writer = pd.ExcelWriter('company.xlsx', engine='xlsxwriter')
+#Далее берём данные за нужные года по году, так как существует ограничение в бесплатном API MOEX:
+# Год 1
+name = input("Код акции: ")
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2013"
+l_4= "-01-01&till="
+l_5= "2014"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2013')
+# Год 2
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2014"
+l_4= "-01-01&till="
+l_5= "2015"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2014')
+# Год 3
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2015"
+l_4= "-01-01&till="
+l_5= "2016"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2015')
+# Год 4
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2016"
+l_4= "-01-01&till="
+l_5= "2017"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2016')
+# Год 5
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2017"
+l_4= "-01-01&till="
+l_5= "2018"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2017')
+# Год 6
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2018"
+l_4= "-01-01&till="
+l_5= "2019"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2018')
+# Год 7
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2019"
+l_4= "-01-01&till="
+l_5= "2020"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2019')
+# Год 8
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2020"
+l_4= "-01-01&till="
+l_5= "2021"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2020')
+# Год 9
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2021"
+l_4= "-01-01&till="
+l_5= "2022"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2021')
+# Год 10
+l="http://iss.moex.com/iss/engines/stock/markets/shares/securities/"
+l_1= f"{name}"
+l_2= "/candles.json?from=" 
+l_3= "2022"
+l_4= "-01-01&till="
+l_5= "2023"
+l_6= "-01-01&interval=24"
+L=l+l_1+l_2+l_3+l_4+l_5+l_6
+j = requests.get(L).json()
+data = [{k : r[i] for i, k in enumerate(j['candles']['columns'])} for r in j['candles']['data']]
+frame = pd.DataFrame(data)
+frame.to_excel (writer, sheet_name='2022')
+writer.save()
