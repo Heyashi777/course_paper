@@ -1,0 +1,44 @@
+# Делаем корреляционную матрицу для наших котировок
+
+# Скачиваем нужные библиотеки
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn import tree
+import numpy as np
+from sklearn import tree
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+from tabulate import tabulate
+
+name=["ALRS","AQUA","BELU","BSPB","CBOM","CHMF","DSKY","ENPG","FEES","FLOT","GAZP","GMKN","HYDR","IRAO","LENT",
+	"LKOH","LSRG","MAGN","MOEX","MSNG","MTLR","MTSS","MVID","NLMK","NVTK","PHOR","PIKK","PLZL","POSI","RENI",
+      "RNFT","ROSN","RTKM","RUAL","SBER","SELG","SFIN","SGZH","SMLT","TATN","TGKA","UPRO","VKCO","VTBR"]
+Data_corr=pd.DataFrame() 
+YYY=pd.DataFrame() 
+
+for i in range(44):
+    RRR=(str(name[i]))
+    r_1="/Users/erickgaydin/Desktop/universaty/5_sem/finance/project_f/stonks_1/"
+    r_2=RRR
+    r_3=".xlsx"
+    RR=r_1+r_2+r_3
+    TTT = RRR
+    Data=pd.concat (pd.read_excel(RR, sheet_name= None ), ignore_index= True )
+    Data["delta"]=Data["open"]-Data["close"]  
+    t=2499-len(Data)
+    YYY[TTT]=range(2499)
+    for i in range(t):
+        YYY.at[i,TTT]=0
+    for i in range(len(Data)):
+        w=Data.iloc[i:i+1,9:10]
+        YYY.at[t+i,TTT]=w.iloc[0,0]
+        
+YYY.to_csv('stonks_corr.csv')
+YYY.to_excel('/Users/erickgaydin/Desktop/Corr_by_days.xlsx')
+
+
+corr = YYY.corr()
+corr.style.background_gradient(cmap='coolwarm')
