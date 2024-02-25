@@ -1,0 +1,63 @@
+# Все файлы хранятся на моём компьютере, которые я сделал с помощью API MOEX
+
+# Скачиваем нужные библиотекеи
+from tabulate import tabulate
+from sklearn.linear_model import LinearRegression
+from sklearn import tree
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
+import warnings
+warnings.filterwarnings('ignore')
+
+# Создаём переменную, в которой будут храниться названия котировок 
+name=[
+      "ALRS","AQUA","BELU","BSPB","CBOM","CHMF","DSKY","ENPG","FEES","FLOT","GAZP","GMKN","HYDR","IRAO","LENT",
+    	"LKOH","LSRG","MAGN","MOEX","MSNG","MTLR","MTSS","MVID","NLMK","NVTK","PHOR","PIKK","PLZL","POSI","RENI",
+      "RNFT","ROSN","RTKM","RUAL","SBER","SELG","SFIN","SGZH","SMLT","TATN","TGKA","UPRO","VKCO","VTBR"
+      ]
+
+# Создаём таблицу, где будет храниться данные по акциям в целом
+Data_stonks=pd.DataFrame() 
+Data_stonks["Name"]=()
+Data_stonks["RSI"]=() 
+
+#Считаем модель для котировок по данным за 10 лет ежедневных котировкам
+for i in range( len(name) ):
+    RRR=(str(name[i]))
+    r_1= "/Users/erickgaydin/Desktop/universaty/5_sem/finance/project_f/stonks_1/"
+    r_2=RRR
+    r_3=".xlsx"
+    RR=r_1+r_2+r_3
+    # В таблицу вносим имена акций
+    Data_stonks.at[i, 'Name']=RRR
+    # Объединяем все листы Excel в одину большую таблицу
+    Data=pd.concat (pd.read_excel(RR, sheet_name= None ), ignore_index= True )
+    # Делаем столбец с дельтой
+    Data["delta"]=Data["open"]-Data["close"]
+    # Считаем экспонентально-сглаженное среднее для котировок с дельтой+
+    fit3 = SimpleExpSmoothing(Data[Data.delta>0].iloc[:,9:]).fit()
+    fcast3 = fit3.forecast(12).rename(r'$\alpha=%s$'%fit3.model.params['smoothing_level'])
+    del_plus=fit3.model.params['smoothing_level']
+    # Считаем экспонентально-сглаженное среднее для котировок с дельтой-
+    fit3 = SimpleExpSmoothing(Data[Data.delta<0].iloc[:,9:]).fit()
+    fcast3 = fit3.forecast(12).rename(r'$\alpha=%s$'%fit3.model.params['smoothing_level'])
+    del_min=fit3.model.params['smoothing_level']
+
+    # Тренируем модель
+    fit3 = SimpleExpSmoothing(Data.iloc[:,9:]).fit()
+    delt =fit3.model.params['smoothing_level']
+    PPP = delt
+    mean = np.mean(PPP)
+    disp = np.var(PPP)
+    std = np.std(PPP)
+    #Считаем RSI
+    RSI = 100 - (100/((del_plus/del_min)+1))
+    Data_stonks.at[i, 'RSI']=RSI
+
+# Выводим таблицу с данными
+print(tabulate(Data_stonks, headers = 'keys', tablefmt = 'fancy_grid')) 
+
+#Сохраняем таблицу на рабочий стол
+Data_stonks.at ('/Users/erickgaydin/Desktop/RSI_data_main_model.xlsx') 
