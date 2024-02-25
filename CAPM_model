@@ -1,0 +1,67 @@
+# Считаем модель CPAPM
+
+#Скачиваем библиотеки
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn import tree
+import numpy as np
+from sklearn import tree
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings('ignore')
+from tabulate import tabulate
+
+#Записываем в переменную названия котировок, которые нам нужны
+name=[
+      "ALRS","AQUA","BELU","BSPB","CBOM","CHMF","DSKY","ENPG","FEES","FLOT","GAZP","GMKN","HYDR","IRAO","LENT",
+    	"LKOH","LSRG","MAGN","MOEX","MSNG","MTLR","MTSS","MVID","NLMK","NVTK","PHOR","PIKK","PLZL","POSI","RENI",
+      "RNFT","ROSN","RTKM","RUAL","SBER","SELG","SFIN","SGZH","SMLT","TATN","TGKA","UPRO","VKCO","VTBR"
+      ]
+
+#Создаём таблицы
+Data_corr=pd.DataFrame() 
+YYY=pd.DataFrame() 
+Beta=pd.DataFrame()
+
+# Считаем модель
+for i in range( len(name) ):
+    RRR=(str(name[i]))
+    r_1="/Users/erickgaydin/Desktop/universaty/5_sem/finance/project_f/stonks_1/"
+    r_2=RRR
+    r_3=".xlsx"
+    RR=r_1+r_2+r_3
+    TTT = RRR
+    Data=pd.concat (pd.read_excel(RR, sheet_name= None ), ignore_index= True )
+    Data["delta"]=Data["open"]-Data["close"]  
+    t=2499-len(Data)
+    YYY[TTT]=range(2499)
+    for i in range(t):
+        YYY.at[i,TTT]=0
+    for i in range(len(Data)):
+        w=Data.iloc[i:i+1,9:10]
+        YYY.at[t+i,TTT]=w.iloc[0,0]
+
+CAPM = pd.DataFrame()
+CAPM['Name'] = range(44)
+CAPM['RF'] = range(44)
+CAPM['ER'] = range(44)
+
+for i in range(44):
+    RRR = (str(name[i]))
+    beta = np.polyfit(YYY[RRR],YYY["MOEX"], 1)
+    rm = YYY[RRR].mean() * 252
+    rf = 0.065
+    ER = rf + (beta[0] * (rm - rf))
+    if ER > 0:
+        print("\nCAPM-model for ", RRR, "is ", ER)
+    CAPM.at[i,'Name'] = RRR
+    CAPM.at[i,'RF'] = 0.065
+    CAPM.at[i,'ER'] = ER
+
+# Выводим таблицу
+print(tabulate(df[df['income_20_p'] >20], headers = 'keys', tablefmt = 'fancy_grid'))
+
+#Переносим таблицу в Excel и на рабочий стол
+CAPM.to_excel('/Users/erickgaydin/Desktop/CAPM_by_days.xlsx')
