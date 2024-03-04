@@ -1,67 +1,114 @@
-# Считаем модель CPAPM
-
-#Скачиваем библиотеки
-import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn import tree
-import numpy as np
-from sklearn import tree
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import warnings
-warnings.filterwarnings('ignore')
-from tabulate import tabulate
+import plotly.graph_objs as go
+import numpy as np
+from plotly.subplots import make_subplots
+import csv
+import matplotlib.pyplot as plt 
 
-#Записываем в переменную названия котировок, которые нам нужны
-name=[
-      "ALRS","AQUA","BELU","BSPB","CBOM","CHMF","DSKY","ENPG","FEES","FLOT","GAZP","GMKN","HYDR","IRAO","LENT",
-    	"LKOH","LSRG","MAGN","MOEX","MSNG","MTLR","MTSS","MVID","NLMK","NVTK","PHOR","PIKK","PLZL","POSI","RENI",
-      "RNFT","ROSN","RTKM","RUAL","SBER","SELG","SFIN","SGZH","SMLT","TATN","TGKA","UPRO","VKCO","VTBR"
-      ]
+name_stonks = ['ALRS', 'BSPB', 'CHMF', 'FEES', 'GAZP', 'GMKN', 'HYDR', 'IRAO','LKOH', 'LSRG', 'MAGN', 'MOEX',
+              'MSNG', 'MTLR', 'MTSS', 'MVID','NLMK', 'NVTK', 'PHOR', 'PIKK', 'PLZL', 'ROSN', 'RTKM', 'SBER',
+              'SELG', 'TATN', 'TGKA', 'VTBR'] 
 
-#Создаём таблицы
-Data_corr=pd.DataFrame() 
-YYY=pd.DataFrame() 
-Beta=pd.DataFrame()
+def read_raw_data( name ):
+    
+    global data_stonks_by_day 
+    
+    first_part = "/Users/erickgaydin/Desktop/Курсовая/Stonks_10_years/"
+    name_part = name
+    third_part = ".xlsx"
+    local_link = first_part+name_part+third_part
+    data_stonks_by_day = pd.concat (pd.read_excel(local_link, sheet_name= None ), ignore_index= True )
 
-# Считаем модель
-for i in range( len(name) ):
-    RRR=(str(name[i]))
-    r_1="/Users/erickgaydin/Desktop/universaty/5_sem/finance/project_f/stonks_1/"
-    r_2=RRR
-    r_3=".xlsx"
-    RR=r_1+r_2+r_3
-    TTT = RRR
-    Data=pd.concat (pd.read_excel(RR, sheet_name= None ), ignore_index= True )
-    Data["delta"]=Data["open"]-Data["close"]  
-    t=2499-len(Data)
-    YYY[TTT]=range(2499)
-    for i in range(t):
-        YYY.at[i,TTT]=0
-    for i in range(len(Data)):
-        w=Data.iloc[i:i+1,9:10]
-        YYY.at[t+i,TTT]=w.iloc[0,0]
+def read_raw_data_by_two_days( name ):
+    
+    global data_stonks_by_day 
+    
+    first_part = "/Users/erickgaydin/Desktop/Курсовая/Stonks_10_years_by_two_days/"
+    name_part = name
+    third_part = ".xlsx"
+    local_link = first_part+name_part+third_part
+    data_stonks_by_day = pd.concat (pd.read_excel(local_link, sheet_name= None ), ignore_index= True )
+    
+def read_raw_data_by_three_days( name ):
+    
+    global data_stonks_by_day 
+    
+    first_part = "/Users/erickgaydin/Desktop/Курсовая/Stonks_10_years_by_three_days/"
+    name_part = name
+    third_part = "_by_three.xlsx"
+    local_link = first_part+name_part+third_part
+    data_stonks_by_day = pd.concat (pd.read_excel(local_link, sheet_name= None ), ignore_index= True )
+    
+def make_table_for_all( classter, number_by_days ):
+    
+    global main_table
+    
+    main_table = pd.DataFrame()
+    main_table['Date'] = range(800)
+    
+    for i in range( len(name_stonks) ):
+        if number_by_days == 2:
+            read_raw_data_by_two_days( name_stonks[i] )
+            main_table[name_stonks[i]] = data_stonks_by_day[classter]
+            main_table = main_table[:1200]
+        elif number_by_days == 3:
+            read_raw_data_by_three_days( name_stonks[i] )
+            main_table[name_stonks[i]] = data_stonks_by_day[classter]
+            main_table = main_table[:800]
+        elif number_by_days == 1:
+            read_raw_data( name_stonks[i] )
+            main_table[name_stonks[i]] = data_stonks_by_day[classter]
+            main_table = main_table[:2400]
+            
+# Функция, которая нормализует данные, то есть, приводит всё к базисному дню
+def normalize(df):
+    x = df.copy()
+    for i in x.columns[1:]:
+        x[i] = x[i]/x[i][0]
+    return x
+# Function to plot interactive plot
+def interactive_plot(df, title):
+    fig = px.line(title = title)
+    for i in df.columns[1:]:
+        fig.add_scatter(x = main_table['Date'], y = df[i], name = i)
+    fig.show()
 
-CAPM = pd.DataFrame()
-CAPM['Name'] = range(44)
-CAPM['RF'] = range(44)
-CAPM['ER'] = range(44)
+def daily_return(df):
+    df_daily_return = df.copy()
+    for i in df.columns[1:]:
+        for j in range(1, len(df)):
+            df_daily_return[i][j] = ((df[i][j]- df[i][j-1])/df[i][j-1]) * 100
+        df_daily_return[i][0] = 0
+    return df_daily_return
 
-for i in range(44):
-    RRR = (str(name[i]))
-    beta = np.polyfit(YYY[RRR],YYY["MOEX"], 1)
-    rm = YYY[RRR].mean() * 252
-    rf = 0.065
-    ER = rf + (beta[0] * (rm - rf))
-    if ER > 0:
-        print("\nCAPM-model for ", RRR, "is ", ER)
-    CAPM.at[i,'Name'] = RRR
-    CAPM.at[i,'RF'] = 0.065
-    CAPM.at[i,'ER'] = ER
 
-# Выводим таблицу
-print(tabulate(df[df['income_20_p'] >20], headers = 'keys', tablefmt = 'fancy_grid'))
+make_table_for_all('open', 3)
+stocks_daily_return = daily_return(main_table)
 
-#Переносим таблицу в Excel и на рабочий стол
-CAPM.to_excel('/Users/erickgaydin/Desktop/CAPM_by_days.xlsx')
+beta = {}
+alpha = {}
+CAPM_by_two = pd.DataFrame()
+CAPM_by_two['Beta'] = range(27)
+CAPM_by_two['Alfa'] = range(27)
+for i in main_table.columns:
+    if i != 'Date' and i != 'MOEX':
+        #main_table.plot(kind = 'scatter', x = 'MOEX', y = i)
+        a = np.polyfit(main_table['MOEX'], main_table[i], 1)[1]
+        b = np.polyfit(main_table['MOEX'], main_table[i], 1)[0]
+        #plt.plot(main_table['MOEX'], b * main_table['MOEX'] + a, '-', color = 'r')      
+        alpha[i] = a  
+        beta[i] = b
+        CAPM_by_two.at[i,'Beta'] = b
+        CAPM_by_two.at[i,'Alfa'] = a     
+    #plt.show()
+        
+keys = list(beta.keys())
+ER = {}
+rf = 0 
+rm = stocks_daily_return['MOEX'].mean() * 252 
+
+for i in keys:
+    ER[i] = rf + (beta[i] * (rm-rf))
+    
+for i in keys:
+    print('Expected return, based on CAPM for {} is {}%'.format(i, ER[i]))
