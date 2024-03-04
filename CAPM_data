@@ -1,0 +1,90 @@
+CAPM data by one days with opening prices:
+    
+Expected return, based on CAPM for ALRS is 5.225783508941745%
+Expected return, based on CAPM for BSPB is 2.0251530292749145%
+Expected return, based on CAPM for CHMF is 80.79612952392516%
+Expected return, based on CAPM for FEES is 0.009753576289602198%
+Expected return, based on CAPM for GAZP is 7.8144132834046145%
+Expected return, based on CAPM for GMKN is 1212.5864022515962%
+Expected return, based on CAPM for HYDR is 0.019165639948698694%
+Expected return, based on CAPM for IRAO is 0.387842292945144%
+Expected return, based on CAPM for LKOH is 273.60137538438613%
+Expected return, based on CAPM for LSRG is 22.61355888889152%
+Expected return, based on CAPM for MAGN is 3.733524584190096%
+Expected return, based on CAPM for MSNG is 0.1115090190770714%
+Expected return, based on CAPM for MTLR is 1.4402757084278062%
+Expected return, based on CAPM for MTSS is 4.481162392846444%
+Expected return, based on CAPM for MVID is 32.479148478077036%
+Expected return, based on CAPM for NLMK is 11.978905732366304%
+Expected return, based on CAPM for NVTK is 75.99118716055126%
+Expected return, based on CAPM for PHOR is 190.5396862945999%
+Expected return, based on CAPM for PIKK is 58.44489806068927%
+Expected return, based on CAPM for PLZL is 1028.2447158550103%
+Expected return, based on CAPM for ROSN is 20.209116738839437%
+Expected return, based on CAPM for RTKM is -0.38991677754460646%
+Expected return, based on CAPM for SBER is 15.712979836338985%
+Expected return, based on CAPM for SELG is 2.9839359386950473%
+Expected return, based on CAPM for TATN is 20.839941456989337%
+Expected return, based on CAPM for TGKA is 0.0004921752273020557%
+Expected return, based on CAPM for VTBR is 1.3274320350981597e-05%
+
+CAPM data by two days with opening prices:
+    
+Expected return, based on CAPM for ALRS is 10.071687623605717%
+Expected return, based on CAPM for BSPB is 3.9038723222451135%
+Expected return, based on CAPM for CHMF is 155.71800607510073%
+Expected return, based on CAPM for FEES is 0.018797426672466453%
+Expected return, based on CAPM for GAZP is 15.060771699316364%
+Expected return, based on CAPM for GMKN is 2337.017287105681%
+Expected return, based on CAPM for HYDR is 0.03693782918905915%
+Expected return, based on CAPM for IRAO is 0.7474981240955824%
+Expected return, based on CAPM for LKOH is 527.3086394545816%
+Expected return, based on CAPM for LSRG is 43.580505329119724%
+Expected return, based on CAPM for MAGN is 7.1955665189212805%
+Expected return, based on CAPM for MSNG is 0.21490824454934335%
+Expected return, based on CAPM for MTLR is 2.7764490813529115%
+Expected return, based on CAPM for MTSS is 8.63616587032155%
+Expected return, based on CAPM for MVID is 62.59485121985077%
+Expected return, based on CAPM for NLMK is 23.086293908154246%
+Expected return, based on CAPM for NVTK is 146.45254728035624%
+Expected return, based on CAPM for PHOR is 367.23419385761105%
+Expected return, based on CAPM for PIKK is 112.63343362061029%
+Expected return, based on CAPM for PLZL is 1981.7156652841857%
+Expected return, based on CAPM for ROSN is 38.951474814495285%
+Expected return, based on CAPM for RTKM is -0.7517800704226654%
+Expected return, based on CAPM for SBER is 30.28344976805191%
+Expected return, based on CAPM for SELG is 5.750615320225205%
+Expected return, based on CAPM for TATN is 40.165376686659535%
+Expected return, based on CAPM for TGKA is 0.0009485992041579706%
+Expected return, based on CAPM for VTBR is 2.5456405509575434e-05%
+
+CAPM data by tree days with opening prices:
+    
+Expected return, based on CAPM for ALRS is 14.320753071276549%
+Expected return, based on CAPM for BSPB is 5.55092010699076%
+Expected return, based on CAPM for CHMF is 221.4038072871%
+Expected return, based on CAPM for FEES is 0.026728297342746166%
+Expected return, based on CAPM for GAZP is 21.415886807714447%
+Expected return, based on CAPM for GMKN is 3322.7086646467683%
+Expected return, based on CAPM for HYDR is 0.05252544554663481%
+Expected return, based on CAPM for IRAO is 1.0628412880670066%
+Expected return, based on CAPM for LKOH is 749.7946582526149%
+Expected return, based on CAPM for LSRG is 61.965983287180585%
+Expected return, based on CAPM for MAGN is 10.231807557896571%
+Expected return, based on CAPM for MSNG is 0.30559017526043586%
+Expected return, based on CAPM for MTLR is 3.948934533196252%
+Expected return, based on CAPM for MTSS is 12.277466525243083%
+Expected return, based on CAPM for MVID is 89.00350075421957%
+Expected return, based on CAPM for NLMK is 32.82500858900225%
+Expected return, based on CAPM for NVTK is 208.25004630700676%
+Expected return, based on CAPM for PHOR is 522.185041463245%
+Expected return, based on CAPM for PIKK is 160.16561771513844%
+Expected return, based on CAPM for PLZL is 2817.728005800354%
+Expected return, based on CAPM for ROSN is 55.387419755587565%
+Expected return, based on CAPM for RTKM is -1.0687702967874926%
+Expected return, based on CAPM for SBER is 43.058170505784176%
+Expected return, based on CAPM for SELG is 8.176357138063485%
+Expected return, based on CAPM for TATN is 57.123924831722064%
+Expected return, based on CAPM for TGKA is 0.0013488987987720408%
+Expected return, based on CAPM for VTBR is 3.633231317385544e-05%
+
