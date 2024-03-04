@@ -1,0 +1,101 @@
+################## В этом файле мы будем считывать данные акций за 10 лет по дням и усреднять по двум и по трём дням
+
+
+import plotly.express as px
+import pandas as pd
+import plotly.graph_objs as go
+import numpy as np
+from plotly.subplots import make_subplots
+import csv
+
+name_stonks = ['ALRS', 'BSPB', 'CHMF', 'FEES', 'GAZP', 'GMKN', 'HYDR', 'IRAO','LKOH', 'LSRG', 'MAGN', 'MOEX',
+              'MSNG', 'MTLR', 'MTSS', 'MVID','NLMK', 'NVTK', 'PHOR', 'PIKK', 'PLZL', 'ROSN', 'RTKM', 'SBER',
+              'SELG', 'TATN', 'TGKA', 'VTBR'] 
+
+# Функция, которая считывает локальный файл с даннымии
+def read_raw_data( name ):
+    
+    global data_stonks_by_day 
+    
+    first_part = "/Users/erickgaydin/Desktop/Курсовая/Stonks_10_years/"
+    name_part = name
+    third_part = ".xlsx"
+    local_link = first_part+name_part+third_part
+    data_stonks_by_day = pd.concat (pd.read_excel(local_link, sheet_name= None ), ignore_index= True )
+
+# Функция, которая уменьшает размерность данных в два раза
+def make_dark_data_by_two_days(): 
+    
+    global   data_stonks_by_two_days
+    
+    for i in range( len(name_stonks) ):
+        
+        read_raw_data(name_stonks[i])
+        data_stonks_by_two_days = pd.DataFrame()
+        open_np = np.array([])
+        close_np = np.array([])
+        
+        for j in range(0, len(data_stonks_by_day)-1, 2 ):
+            
+            data_open = data_stonks_by_day['open']
+            open_one = data_open[j]
+            open_two = data_open[j+1]
+            count_open = (open_one + open_two) / 2
+            open_np = np.append(open_np, count_open)
+            
+            data_close = data_stonks_by_day['close']
+            close_one = data_close[j]
+            close_two = data_close[j+1]
+            count_close = (close_one + close_two) / 2 
+            close_np = np.append(close_np, count_close)
+            
+        
+        data_stonks_by_two_days['open'] = open_np
+        data_stonks_by_two_days['close'] = close_np
+        
+        first_part = "/Users/erickgaydin/Desktop/"
+        name_part = name_stonks[i]
+        third_part = ".xlsx"
+        local_link = first_part + name_part + third_part
+        
+        data_stonks_by_two_days.to_excel(local_link)
+
+# Функция, которая уменьшает размерность данных в три раза
+def make_dark_data_by_three_days(): 
+    
+    global   data_stonks_by_three_days
+    
+    for i in range( len(name_stonks) ):
+        
+        read_raw_data(name_stonks[i])
+        data_stonks_by_three_days = pd.DataFrame()
+        open_np = np.array([])
+        close_np = np.array([])
+        
+        for j in range(0, len(data_stonks_by_day)-2, 3 ):
+            
+            data_open = data_stonks_by_day['open']
+            open_one = data_open[j]
+            open_two = data_open[j+1]
+            open_three = data_open[j+2]
+            count_open = (open_one + open_two + open_three) / 3
+            open_np = np.append(open_np, count_open)
+            
+            data_close = data_stonks_by_day['close']
+            close_one = data_close[j]
+            close_two = data_close[j+1]
+            close_three = data_close[j+2]
+            count_close = (close_one + close_two + close_three) / 3 
+            close_np = np.append(close_np, count_close)
+            
+        
+        data_stonks_by_three_days['open'] = open_np
+        data_stonks_by_three_days['close'] = close_np
+        
+        first_part = "/Users/erickgaydin/Desktop/"
+        name_part = name_stonks[i]
+        third_part = "_by_three.xlsx"
+        local_link = first_part + name_part + third_part
+        
+        data_stonks_by_three_days.to_excel(local_link)
+     
